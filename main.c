@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "binary_heap.h"
+#include "functions.h"
 #define MAX_TAREA 50
 
 int main(void) {
