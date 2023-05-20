@@ -31,11 +31,11 @@ int main(void) {
                 break;
             case 3:
                 // Código para mostrar tareas por hacer
-              mostrarTareas(pq);
+              //mostrarTareas(pq);
                 break;
             case 4:
                 // Código para marcar tarea como completada
-              tareaCompletada(pq);
+              //tareaCompletada(pq);
                 break;
             case 5:
                 printf("Saliendo de la aplicacion...\n");

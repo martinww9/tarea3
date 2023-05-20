@@ -48,3 +48,99 @@ void establecerPrecedencia(PriorityQueue *pq) {
 
     printf("Se establecio que la tarea '%s' debe realizarse antes que la tarea '%s'.\n", tarea1->nombre, tarea2->nombre);
 }
+
+void mostrarTareas(PriorityQueue *pq) {
+    printf("Tareas por hacer, ordenadas por prioridad y precedencia:\n");
+
+    // Crear una copia de la cola original
+    PriorityQueue *pq_copia = create_pq();
+    for (int i = 0; i < pq->tamano; i++) {
+        Tarea tarea = pq->datos[i];
+        push(pq_copia, tarea);
+    }
+
+    // Ordenar las tareas según sus precedentes
+    PriorityQueue *pq_ordenada = create_pq();
+    while (!esVacia(pq_copia)) {
+        bool seMovioTarea = false;
+
+        for (int i = 0; i < pq_copia->tamano; i++) {
+            Tarea tarea = pq_copia->datos[i];
+
+            if (strlen(tarea.precedentes) == 0) {
+                // Insertar tareas sin precedentes en la cola ordenada
+                push(pq_ordenada, tarea);
+                eliminarTarea(pq_copia, i);
+                seMovioTarea = true;
+                break;
+            }
+
+            bool todosPrecedentesEnCola = true;
+            char precedentes[MAX_TAREA];
+            strcpy(precedentes, tarea.precedentes);
+            char *precedente = strtok(precedentes, " ");
+            while (precedente != NULL) {
+                Tarea *tareaPrecedente = buscarTarea(pq_ordenada, precedente);
+                if (tareaPrecedente == NULL) {
+                    todosPrecedentesEnCola = false;
+                    break;
+                }
+                precedente = strtok(NULL, " ");
+            }
+
+            if (todosPrecedentesEnCola) {
+                // Insertar tareas con todos los precedentes en la cola ordenada
+                push(pq_ordenada, tarea);
+                eliminarTarea(pq_copia, i);
+                seMovioTarea = true;
+                break;
+            }
+        }
+
+        if (!seMovioTarea) {
+            printf("Error: las tareas contienen ciclos de precedencia.\n");
+            break;
+        }
+    }
+
+    // Mostrar las tareas ordenadas
+    for (int i = 0; i < pq_ordenada->tamano; i++) {
+        Tarea tarea = pq_ordenada->datos[i];
+        printf("%d. %s (Prioridad: %d)", i + 1, tarea.nombre, tarea.prioridad);
+        if (strlen(tarea.precedentes) > 0) {
+            printf(" - Precedente: %s", tarea.precedentes);
+        }
+        printf("\n");
+    }
+
+    // Liberar la memoria de las colas auxiliares
+    free(pq_copia);
+    free(pq_ordenada);
+}
+
+int esVacia(PriorityQueue *pq) {
+    return pq->tamano == 0;
+}
+
+void eliminarTarea(PriorityQueue *pq, int index) {
+    if (index < 0 || index >= pq->tamano) {
+        printf("Error: Índice fuera de rango.\n");
+        return;
+    }
+
+    // Mover las tareas restantes hacia la izquierda para llenar el espacio de la tarea eliminada
+    for (int i = index; i < pq->tamano - 1; i++) {
+        pq->datos[i] = pq->datos[i+1];
+    }
+    pq->tamano--;
+}
+
+// Función auxiliar para buscar una tarea por nombre en la cola
+Tarea* buscarTarea(PriorityQueue *pq, const char *nombre) {
+    for (int i = 0; i < pq->tamano; i++) {
+        if (strcmp(nombre, pq->datos[i].nombre) == 0) {
+            return &pq->datos[i];
+        }
+    }
+    return NULL;
+}

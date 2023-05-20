@@ -18,5 +18,8 @@ void agregarTarea(PriorityQueue *pq);
 void establecerPrecedencia(PriorityQueue *pq);
 void mostrarTareas(PriorityQueue *pq);
 void tareaCompletada(PriorityQueue *pq);
+int esVacia(PriorityQueue *pq);
+void eliminarTarea(PriorityQueue *pq, int index);
+Tarea* buscarTarea(PriorityQueue *pq, const char *nombre);
 
 #endif /* FUNCTIONS_H */
