@@ -27,7 +27,7 @@ int main(void) {
                 break;
             case 2:
                 // Código para establecer precedencia
-              //establecerPrecedencia(pq);
+              establecerPrecedencia(pq);
                 break;
             case 3:
                 // Código para mostrar tareas por hacer
