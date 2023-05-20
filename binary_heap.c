@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "binary_heap.h"
-#include "funciones_answer.h"
+#include "functions.h"
 #define MAX_TAREA 50
 
 PriorityQueue* create_pq() {
@@ -68,4 +68,10 @@ Tarea pop(PriorityQueue *pq) {
     }
 
     return tarea;
+}
+
+void intercambiar(Tarea *tarea1, Tarea *tarea2) {
+    Tarea temporal = *tarea1;
+    *tarea1 = *tarea2;
+    *tarea2 = temporal;
 }

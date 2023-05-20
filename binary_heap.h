@@ -5,5 +5,6 @@
 PriorityQueue* create_pq();
 void push(PriorityQueue *pq, Tarea tarea);
 Tarea pop(PriorityQueue *pq);
+void intercambiar(Tarea *tarea1, Tarea *tarea2);
 
 #endif /* BINARY_HEAP_H */

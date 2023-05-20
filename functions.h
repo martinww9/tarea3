@@ -19,4 +19,5 @@ void establecerPrecedencia(PriorityQueue *pq);
 void mostrarTareas(PriorityQueue *pq);
 void tareaCompletada(PriorityQueue *pq);
 
+
 #endif /* FUNCTIONS_H */
