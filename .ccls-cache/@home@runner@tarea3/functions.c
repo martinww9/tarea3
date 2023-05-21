@@ -144,3 +144,44 @@ Tarea* buscarTarea(PriorityQueue *pq, const char *nombre) {
     }
     return NULL;
 }
+
+void tareaCompletada(PriorityQueue *pq) {
+    char nombre[MAX_TAREA];
+    printf("Nombre de tarea a marcar como completada: ");
+    scanf("%s", nombre);
+
+    int index = -1;
+    for (int i = 0; i < pq->tamano; i++) {
+        if (strcmp(nombre, pq->datos[i].nombre) == 0) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        printf("La tarea %s no existe.\n", nombre);
+        return;
+    }
+
+    // Eliminar la referencia a la tarea completada en las precedencias de las demás tareas
+    for (int i = 0; i < pq->tamano; i++) {
+        if (i != index) {
+            char *precedentes = pq->datos[i].precedentes;
+            char *token = strtok(precedentes, " ");
+            char precedentes_actualizados[MAX_TAREA] = "";
+            while (token != NULL) {
+                if (strcmp(token, nombre) != 0) {
+                    strcat(precedentes_actualizados, token);
+                    strcat(precedentes_actualizados, " ");
+                }
+                token = strtok(NULL, " ");
+            }
+            strcpy(pq->datos[i].precedentes, precedentes_actualizados);
+        }
+    }
+
+    // Eliminar la tarea completada
+    eliminarTarea(pq, index);
+
+    printf("La tarea %s se ha marcado como completada y eliminada de la lista de tareas por hacer.\n", nombre);
+}

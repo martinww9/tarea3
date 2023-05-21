@@ -21,5 +21,6 @@ void tareaCompletada(PriorityQueue *pq);
 int esVacia(PriorityQueue *pq);
 void eliminarTarea(PriorityQueue *pq, int index);
 Tarea* buscarTarea(PriorityQueue *pq, const char *nombre);
+void tareaCompletada(PriorityQueue *pq);
 
 #endif /* FUNCTIONS_H */
